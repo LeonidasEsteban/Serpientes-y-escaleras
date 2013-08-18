@@ -1,5 +1,5 @@
 {
-	"name": "test 2",
+	"name": "aplicacion de prueba",
 	"version": "0.0.1",
 	"dependencies": {
 		"express": "*",
@@ -8,9 +8,10 @@
 		"socket.io": "*",
 		"swig": "*"
 	},
-	"subdomain": "test",
+	"description": "mi primera app",
+	"subdomain": "nodeleo",
 	"scripts": {
-		"start": "node server"
+		"start": "node server.js"
 	},
 	"engines": {
 		"node": "0.8.x"
