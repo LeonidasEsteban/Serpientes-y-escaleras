@@ -1,5 +1,5 @@
 {
-	"name": "test",
+	"name": "test 2",
 	"version": "0.0.1",
 	"dependencies": {
 		"express": "*",
@@ -10,9 +10,9 @@
 	},
 	"subdomain": "test",
 	"scripts": {
-		"start": "node server.js"
+		"start": "node server"
 	},
 	"engines": {
-		"node": "0.8"
+		"node": "0.8.x"
 	}
 }
