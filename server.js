@@ -4,10 +4,6 @@ var express = require('express'),
 
 var app = express();
 
-// swig.init({
-//     cache:false
-// });
-
 //view engines
 app.engine('.html', cons.swig);
 app.set('view engine', 'html');
