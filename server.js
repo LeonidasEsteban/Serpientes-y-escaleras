@@ -1,8 +1,15 @@
 var express = require('express'),
     swig = require('swig'),
     cons = require('consolidate');
+    
 
-var app = express();
+
+var app    = express();
+var server = require('http').createServer(app);
+var io     = require('socket.io').listen(server);
+
+server.listen(3000);
+
 
 //view engines
 app.engine('.html', cons.swig);
@@ -18,4 +25,11 @@ app.get('/',function (req, res){
 app.get("/mensaje/:mensaje", function (req, res){
     res.send(req.params.mensaje);
 });
-app.listen(3000);
+
+var connection = function(socket){
+    console.log('Hola');
+    socket.on('avanzar',function(data){
+        socket.broadcast.emit('avanzar',data);
+    });
+};
+io.sockets.on('connection', connection);

@@ -1,12 +1,19 @@
 $(function(){
-    var estado = $('.jugador').position().left;
-    var posicion =0;
+    
+    var posicion = 0;
     var cols, rows, totalgrid;
-    var juego = {
+    var $target;
+
+    window.client = io.connect(window.location.href);
+
+    client.on('avanzar',function(data){
+        juego.avanzando(0,data.posicion);
+    });
+    window.juego = {
         grid : function(){
-                rows = 8;
-                cols = 8;
-                totalgrid = rows * cols;
+            rows = 8;
+            cols = 8;
+            totalgrid = rows * cols;
             var counter = 0;
             
             for(i = 1 ; i<= rows ; i++){
@@ -30,56 +37,60 @@ $(function(){
             }
         },
         avanzar : function(){
-            var $target;
-            var random;
             $('.avanzar').on('click',function(){
-                random  = Math.floor((Math.random()*6)+1);
+                var random  = Math.floor((Math.random()*6)+1);
                 posicion    = posicion + random;
-                avanzando(0);
+                juego.avanzando(0, posicion);
             });
-            function validacion(){
-                var pregunta = setTimeout(function(){
-                    if($target.hasClass('serpiente')){
-                        posicion = posicion - 4;
-                        console.log('serpiente');
-                        $target.removeClass('active');
-                        avanzando(300);
-                        $target.removeClass('active');
-                    }else if ($target.hasClass('escalera')){
-                        posicion = posicion + 5;
-                        console.log('escalera');
-                        avanzando(300);
-                        $target.removeClass('active');
-                    }
+        },
+        realtime : function(posicion){
+            window.client.emit('avanzar',{
+                posicion : posicion,
+            });
+        },
+        avanzando : function(tiempo, posicion){
 
-                },1000);
-            }
-            function avanzando(tiempo){
+            var ir = setTimeout(function(){
+                $("body").scrollTop($('.jugador').position().top - 100);
 
-                var ir = setTimeout(function(){
-                    $("body").scrollTop($('.jugador').position().top - 100);
-
-                    if(posicion > totalgrid ){
-                        posicion = (totalgrid) - (posicion - (totalgrid));
-                    }else if(posicion == totalgrid){
-                        console.log('Ganaste!');
-                        win();
-                    }
-
-                    $target = $('.col[data-count='+posicion+']');
-                    $target.addClass('active');
-
-                    var left    = $target.position().left;
-                    var top     = $target.position().top;
-                    $('.jugador').css({'left':left+30,'top':top+30});
-                    validacion();
-                },tiempo);
-
-                function win(){
-                    $('.win').addClass('active').fadeOut().fadeIn();
+                if(posicion > totalgrid ){
+                    posicion = (totalgrid) - (posicion - (totalgrid));
+                }else if(posicion == totalgrid){
+                    console.log('Ganaste!');
+                    win();
                 }
 
+                $target = $('.col[data-count='+posicion+']');
+                $target.addClass('active');
+
+                var left    = $target.position().left;
+                var top     = $target.position().top;
+                $('.jugador').css({'left':left+30,'top':top+30});
+                juego.validacion();
+            },tiempo);
+
+            function win(){
+                $('.win').addClass('active').fadeOut().fadeIn();
             }
+        },
+        validacion :function(){
+            var delay = setTimeout(function(){
+                if($target.hasClass('serpiente')){
+                    posicion = posicion - 4;
+                    console.log('serpiente');
+                    $target.removeClass('active');
+                    juego.avanzando(300,posicion);
+                    $target.removeClass('active');
+                }else if ($target.hasClass('escalera')){
+                    posicion = posicion + 5;
+                    console.log('escalera');
+                    juego.avanzando(300,posicion);
+                    $target.removeClass('active');
+                }
+            juego.realtime(posicion);
+                
+
+            },1000);
         },
         init : function(){
             juego.grid();
@@ -90,4 +101,6 @@ $(function(){
         }
     };
     juego.init();
+
+
 });
