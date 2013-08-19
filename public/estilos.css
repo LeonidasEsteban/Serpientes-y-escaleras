@@ -1,0 +1,115 @@
+body{
+    background: #D533FF;
+    text-align:center;
+    font-family: "Arial";
+}
+ul{
+    text-align:  left;
+}
+li{
+    text-align: left;
+}
+#wrapper{
+    max-width: 820px;
+    margin:0 auto;
+}
+#grid{
+    background:  #CDE52D;
+    position: relative;
+    border:10px solid red;
+}
+.col{
+    background: white;
+    border-radius: 50%;
+    display: inline-block;
+    height: 100px;
+    line-height: 100px;
+    margin-bottom: 10px;
+    position: relative;
+    vertical-align: top;
+    width: 100px;
+}
+.col:after{
+    content:attr(data-count);
+    color:black;
+    font-size: 50px;
+    text-shadow:5px 5px 0 #80FF78;
+    
+}
+.col.serpiente{
+    background: green url('images/serpiente.png') no-repeat center;
+    background-size: 100%;
+}
+.col.serpiente:after{
+    font-size: 16px;
+}
+.col.serpiente.active{
+    -webkit-animation: 1s serpiente;
+}
+@-webkit-keyframes serpiente{
+    100%{
+        box-shadow: 0 0 20px green, 0 0 40px white;
+        -webkit-transform:rotateY(360deg);
+    }
+}
+.col.escalera.active{
+    -webkit-animation: 1s escalera;
+
+}
+@-webkit-keyframes escalera{
+    100%{
+        box-shadow: 0 0 20px brown, 0 0 40px white;
+        -webkit-transform:rotateX(360deg);
+    }
+}
+.col.escalera{
+    background: brown url('images/escalera.png') no-repeat center;
+    background-size: 100%;
+}
+.col.escalera:after{
+    font-size: 16px;
+}
+.jugador{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    z-index: 1;
+    -webkit-transition:.3s ;
+    bottom: -60px;
+    right: 30px;
+    border-radius: 50%;
+    box-shadow: 0 0 20px pink;
+    background: black url('images/pau.png') no-repeat center;
+    background-size: 100%;
+}
+.actions{
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+
+}
+.win{
+    color:white;
+    font-size: 50px;
+    font-weight: bold;
+    text-shadow:3px 3px 0 black;
+    text-transform: uppercase;
+    display: none;
+}
+.win.active{
+    display: block;
+}
+button{
+    padding: 20px 40px;
+    border-radius: 10px;
+    color:white;
+    background: orange;
+    border:none;
+    font-size: 30px;
+    text-transform:  uppercase;
+    cursor:pointer;
+
+}
+button:hover{
+    background: red;
+}
