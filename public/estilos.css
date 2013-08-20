@@ -82,6 +82,9 @@ li{
     background: black url('images/pau.png') no-repeat center;
     background-size: 100%;
 }
+.jugador:after{
+    content:attr(id);
+}
 .actions{
     position: fixed;
     bottom: 50px;
